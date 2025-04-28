@@ -20,6 +20,8 @@ def mostrar_saldo(saldo_placas: dict):
     print("=-" * 50)
     print(f"Total = {acumulador}")
 
+
+
 def buscar_colaborador(nome: str):
 
     arquivo = load_workbook("calculo_diarias.xlsx")
@@ -97,4 +99,82 @@ def buscar_colaborador(nome: str):
             lista_nomes.append({nome_ajudante2: placa})
 
     return lista_nomes
-    
+
+
+
+def verificar_lista(lista: list):
+
+    if len(lista) == 0:
+        
+        print("Não foi encontrado um colaborador com esse nome!")
+
+        input()
+        return {}
+
+    elif len(lista) == 1:
+
+        nome = list(lista[0].keys())[0]
+        placa = list(lista[0].values())[0]
+
+        lista.clear()
+
+        print("\n")
+        print(f"nome: {nome}, placa: {placa}")
+
+        return {nome: placa}
+
+
+    if len(lista) > 1:
+
+        while True:
+
+            try:
+
+                print("=" * 100)
+
+                print("Existe mais de um colaborador com este nome, qual seria o certo: ")
+                print("\n")
+                
+                for id_nome in range(len(lista)):
+
+                    nomebusca = list(lista[id_nome].keys())[0]
+
+                    print(f"id: {id_nome}, nome: {nomebusca}")
+
+                input_id = int(input("id do colaborador: "))
+
+                nome = list(lista[input_id].keys())[0]
+                placa = list(lista[input_id].values())[0]
+
+                lista.clear()
+
+                print(f"nome: {nome}, placa: {placa}")
+
+                return {nome: placa}
+
+            except:
+                print("=-" * 50)
+                print("id invalido")
+                print("=-" * 50)
+
+
+
+def adicionar_saldo(valor: str, colaborador: dict, saldo_list: list):
+    print("==" * 50)
+
+    if "," in valor:
+        valor = valor.replace(",", ".")
+        valor = float(valor)
+
+    else:
+        valor = float(valor)
+
+    placa = list(colaborador.values())[0]
+
+    if placa in saldo_list:
+
+        saldo_list[placa] += valor
+    else:
+        saldo_list[placa] = valor
+
+    mostrar_saldo(saldo_list)
